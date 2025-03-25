@@ -2,7 +2,7 @@
 
 async function buscarCategorias() {
     try {
-        const response = await fetch("https://www.freetogame.com/api/games")
+        const response = await fetch(url)
         if (!response.ok) throw new Error('Erro ao buscar jogos')
         const jogos = await response.json()
 
@@ -98,10 +98,13 @@ function criarBanner(jogo) {
     banner.appendChild(novoJogo)
 }
 
+const proxy = 'https://cors-anywhere.herokuapp.com/'
+const url = 'https://www.freetogame.com/api/games'
+
 async function buscarJogos() {
     try {
-        const response = await fetch("https://www.freetogame.com/api/games")
-        if (!response.ok) throw new Error('Erro ao buscar jogos')
+        const response = await fetch(proxy + url)
+    if (!response.ok) throw new Error('Erro ao buscar jogos: ' + response.statusText)
         return await response.json()
     } catch (error) {
         console.error('Erro ao buscar jogos:', error)
@@ -116,7 +119,7 @@ async function exibirJogos(filtro = '') {
     const jogos = await buscarJogos()
     banner.innerHTML = ''
 
-    if (!jogos || jogos.length === 0) {
+    if (!jogos || jogos.length == 0) {
         banner.innerHTML = '<p>Erro ao carregar jogos ou nenhum jogo disponível.</p>'
         return
     }
@@ -125,7 +128,7 @@ async function exibirJogos(filtro = '') {
         ? jogos.filter(jogo => jogo.genre.toLowerCase() == filtro.toLowerCase())
         : jogos
 
-    if (jogosFiltrados.length === 0) {
+    if (jogosFiltrados.length == 0) {
         banner.innerHTML = '<p>Nenhum jogo encontrado com esse filtro.</p>'
         return
     }
