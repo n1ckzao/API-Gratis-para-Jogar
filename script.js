@@ -1,14 +1,20 @@
 'use strict'
 
-async function pesquisarJogos(game) {
-    const url =`https://www.freetogame.com/api/games?title=${game}`
-    const response = await fetch(url)
-    const data = await response.json()
-    return data
+async function buscarJogos() {
+    const url = `https://www.freetogame.com/api/games`
+    try {
+        const response = await fetch(url)
+        if (!response.ok) throw new Error('Erro ao buscar jogos')
+        return await response.json()
+    } catch (error) {
+        console.error('Erro ao buscar jogos:', error)
+        return []
+    }
 }
 
 function criarBanner(jogo) {
     const banner = document.getElementById('banner')
+    
     const novoJogo = document.createElement('div')
     novoJogo.classList.add('game')
 
@@ -23,27 +29,50 @@ function criarBanner(jogo) {
     generoJogo.textContent = `Gênero: ${jogo.genre}`
     generoJogo.style.color = 'blue'
 
+    const imagemJogo = document.createElement('img')
+    imagemJogo.src = jogo.thumbnail
+    imagemJogo.alt = `Imagem do jogo ${jogo.title}`
+
+    novoJogo.appendChild(imagemJogo)
     novoJogo.appendChild(nomeJogo)
     novoJogo.appendChild(descricaoJogo)
     novoJogo.appendChild(generoJogo)
     banner.appendChild(novoJogo)
 }
 
-async function exibirJogos(game) {
+async function exibirJogos(filtro = '') {
     const banner = document.getElementById('banner')
-    const jogos = await pesquisarJogos(game)
+    banner.innerHTML = '<p>Carregando...</p>'
+
+    const jogos = await buscarJogos()
     banner.innerHTML = ''
-    jogos.forEach(criarBanner)
+
+    if (!jogos || jogos.length === 0) {
+        banner.innerHTML = '<p>Erro ao carregar jogos ou nenhum jogo disponível.</p>'
+        return
+    }
+
+    const jogosFiltrados = filtro
+        ? jogos.filter(jogo => jogo.title.toLowerCase().includes(filtro.toLowerCase()))
+        : jogos
+
+    if (jogosFiltrados.length === 0) {
+        banner.innerHTML = '<p>Nenhum jogo encontrado.</p>'
+        return
+    }
+
+    jogosFiltrados.forEach(criarBanner)
 }
 
 document.getElementById('pesquisar').addEventListener('click', () => {
     const jogoInput = document.getElementById('jogo')
-    const jogo = jogoInput.value
+    const jogo = jogoInput.value.trim()
     exibirJogos(jogo)
     jogoInput.value = ''
-});
-
-exibirJogos()
+})
+window.addEventListener('load', () => {
+    exibirJogos()
+})
 
 
 

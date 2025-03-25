@@ -3,7 +3,7 @@
     padding: 0;
     box-sizing: border-box;
 }
-:root {
+:root{
     --primary-color: #ffffff;
     --secondary-color: #8d8d8d;
     --tertiary-color: #232544;
@@ -11,6 +11,8 @@
 }
 body {
     background-color: var(--quaternary-color);
+    color: var(--primary-color);
+    font-family: Arial, Helvetica, sans-serif;
 }
 a {
     text-decoration: none;
@@ -21,19 +23,14 @@ header {
     height: 9vh;
     display: flex;
     justify-content: space-evenly;
+    align-items: center;
+    padding: 10px;
 }
 header a {
-    display: flex;
-    align-items: center;
-    height: 100%;
     font-size: 2vh;
-    color: var(--primary-color);
-    font-family: Arial, Helvetica, sans-serif;
 }
 header img {
-    width: auto;
-    height: auto;
-    border: none;
+    height: 50px;
 }
 .pesquisa {
     display: flex;
@@ -47,15 +44,12 @@ input {
     border-radius: 5px;
     font-size: 16px;
 }
-input:focus {
-    outline: none;
-    border-color: #0056b3;
-}
 button {
     width: 150px;
     padding: 10px;
     background-color: #1598c0;
     color: white;
+    border: none;
     border-radius: 5px;
     font-size: 16px;
     cursor: pointer;
@@ -64,30 +58,27 @@ button {
 button:hover {
     background-color: #0056b3;
 }
-button:focus {
-    outline: none;
-    box-shadow: 0 0 5px rgba(21, 152, 192, 0.5);
-}
 .game {
-    margin: 10px;
-    padding: 10px;
     background-color: var(--secondary-color);
     border-radius: 5px;
+    padding: 15px;
+    margin: 10px;
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
     transition: transform 0.3s;
+    text-align: center;
+    width: 250px;
 }
-
 .game:hover {
     transform: scale(1.05);
 }
 img {
-    width: 17vw;
-    margin: 5px;
-    border: 2px solid white;
+    width: 100%;
+    border-radius: 5px;
 }
 .banner {
     display: flex;
     flex-wrap: wrap;
     justify-content: center;
-    margin-top: 20px;
+    gap: 20px;
+    padding: 20px;
 }
