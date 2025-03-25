@@ -1,12 +1,12 @@
 'use strict'
 
 document.addEventListener('DOMContentLoaded', () => {
-    const detalhesJogo = document.getElementById('detalhes-jogo');
-    const jogo = JSON.parse(localStorage.getItem('jogoSelecionado'));
+    const detalhesJogo = document.getElementById('detalhes-jogo')
+    const jogo = JSON.parse(localStorage.getItem('jogoSelecionado'))
 
     if (!jogo) {
-        detalhesJogo.innerHTML = "<p>Jogo não encontrado.</p>";
-        return;
+        detalhesJogo.innerHTML = "<p>Jogo não encontrado.</p>"
+        return
     }
 
     detalhesJogo.innerHTML = `

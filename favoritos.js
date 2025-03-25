@@ -33,7 +33,7 @@ document.addEventListener('DOMContentLoaded', () => {
             localStorage.setItem('favoritos', JSON.stringify(favoritos))
             renderizarFavoritos()
         }
-    });
+    })
     favoritosLista.addEventListener('change', (event) => {
         if (event.target.classList.contains('status')) {
             const id = event.target.closest('div').querySelector('.remover').dataset.id
