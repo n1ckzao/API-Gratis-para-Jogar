@@ -2,7 +2,7 @@
 
 async function buscarCategorias() {
     try {
-        const response = await fetch(url)
+        const response = await fetch(proxy + url)
         if (!response.ok) throw new Error('Erro ao buscar jogos')
         const jogos = await response.json()
 
@@ -19,10 +19,11 @@ function mostrarCategorias() {
     const categoriasList = document.getElementById('categorias-list')
 
     buscarCategorias().then(generos => {
+        categoriasList.innerHTML = ''
+
         if (generos.length == 0) {
             categoriasList.innerHTML = '<li>Sem categorias disponíveis</li>'
         } else {
-            categoriasList.innerHTML = ''
             generos.forEach(genero => {
                 const item = document.createElement('li')
                 item.textContent = genero
@@ -33,17 +34,16 @@ function mostrarCategorias() {
                 categoriasList.appendChild(item)
             })
         }
-    })
-    categoriasMenu.style.display = 'block'
-}
 
+        categoriasMenu.style.display = 'block'
+    })
+}
 document.addEventListener('click', (event) => {
     const categoriasMenu = document.getElementById('categorias-menu')
-    if (!categoriasMenu.contains(event.target) && event.target.id != 'categorias') {
+    if (!categoriasMenu.contains(event.target) && event.target.id !== 'categorias') {
         categoriasMenu.style.display = 'none'
     }
 })
-
 document.getElementById('categorias').addEventListener('click', (event) => {
     event.preventDefault()
     mostrarCategorias()
@@ -117,7 +117,7 @@ async function buscarJogos() {
     }
 }
 
-async function exibirJogos(filtro = '') {
+async function exibirJogos(filtro = '', nome = '') {
     const banner = document.getElementById('banner')
     banner.innerHTML = '<p>Carregando...</p>'
 
@@ -129,12 +129,14 @@ async function exibirJogos(filtro = '') {
         return
     }
 
-    const jogosFiltrados = filtro
-        ? jogos.filter(jogo => jogo.genre.toLowerCase() == filtro.toLowerCase())
-        : jogos
+    const jogosFiltrados = jogos.filter(jogo => {
+        const nomeMatch = nome ? jogo.title.toLowerCase().includes(nome.toLowerCase()) : true
+        const generoMatch = filtro ? jogo.genre.toLowerCase() == filtro.toLowerCase() : true
+        return nomeMatch && generoMatch
+    })
 
     if (jogosFiltrados.length == 0) {
-        banner.innerHTML = '<p>Nenhum jogo encontrado com esse filtro.</p>'
+        banner.innerHTML = '<p>Nenhum jogo encontrado com esse nome ou filtro.</p>'
         return
     }
 
@@ -143,9 +145,15 @@ async function exibirJogos(filtro = '') {
 
 document.getElementById('pesquisar').addEventListener('click', () => {
     const jogoInput = document.getElementById('jogo')
-    const jogoID = jogoInput.value.trim()
-    exibirJogos(jogoID)
+    const nomeJogo = jogoInput.value.trim()
+    exibirJogos('', nomeJogo)
     jogoInput.value = ''
+})
+document.getElementById('jogo').addEventListener('keypress', (event) => {
+    if (event.key == 'Enter') {
+        event.preventDefault()
+        document.getElementById('pesquisar').click()
+    }
 })
 
 window.addEventListener('load', () => {
