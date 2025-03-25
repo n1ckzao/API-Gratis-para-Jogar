@@ -1,15 +1,53 @@
 'use strict'
 
-async function buscarJogos() {
+async function buscarCategorias() {
     try {
         const response = await fetch("https://www.freetogame.com/api/games")
         if (!response.ok) throw new Error('Erro ao buscar jogos')
-        return await response.json()
+        const jogos = await response.json()
+
+        const generos = [...new Set(jogos.map(jogo => jogo.genre))]
+        return generos
     } catch (error) {
-        console.error('Erro ao buscar jogos:', error)
+        console.error('Erro ao buscar categorias:', error)
         return []
     }
 }
+
+function mostrarCategorias() {
+    const categoriasMenu = document.getElementById('categorias-menu')
+    const categoriasList = document.getElementById('categorias-list')
+
+    buscarCategorias().then(generos => {
+        if (generos.length == 0) {
+            categoriasList.innerHTML = '<li>Sem categorias disponíveis</li>'
+        } else {
+            categoriasList.innerHTML = ''
+            generos.forEach(genero => {
+                const item = document.createElement('li')
+                item.textContent = genero
+                item.addEventListener('click', () => {
+                    exibirJogos(genero)
+                    categoriasMenu.style.display = 'none'
+                })
+                categoriasList.appendChild(item)
+            })
+        }
+    })
+    categoriasMenu.style.display = 'block'
+}
+
+document.addEventListener('click', (event) => {
+    const categoriasMenu = document.getElementById('categorias-menu')
+    if (!categoriasMenu.contains(event.target) && event.target.id != 'categorias') {
+        categoriasMenu.style.display = 'none'
+    }
+})
+
+document.getElementById('categorias').addEventListener('click', (event) => {
+    event.preventDefault()
+    mostrarCategorias()
+})
 
 function adicionarFavoritos(jogo) {
     let favoritos = JSON.parse(localStorage.getItem('favoritos')) || []
@@ -60,25 +98,35 @@ function criarBanner(jogo) {
     banner.appendChild(novoJogo)
 }
 
-async function exibirJogos(filtroID = '') {
+async function buscarJogos() {
+    try {
+        const response = await fetch("https://www.freetogame.com/api/games")
+        if (!response.ok) throw new Error('Erro ao buscar jogos')
+        return await response.json()
+    } catch (error) {
+        console.error('Erro ao buscar jogos:', error)
+        return []
+    }
+}
+
+async function exibirJogos(filtro = '') {
     const banner = document.getElementById('banner')
     banner.innerHTML = '<p>Carregando...</p>'
 
     const jogos = await buscarJogos()
-    console.log(jogos)
     banner.innerHTML = ''
 
-    if (!jogos || jogos.length == 0) {
+    if (!jogos || jogos.length === 0) {
         banner.innerHTML = '<p>Erro ao carregar jogos ou nenhum jogo disponível.</p>'
         return
     }
 
-    const jogosFiltrados = filtroID
-        ? jogos.filter(jogo => jogo.id.toString() == filtroID)
+    const jogosFiltrados = filtro
+        ? jogos.filter(jogo => jogo.genre.toLowerCase() == filtro.toLowerCase())
         : jogos
 
-    if (jogosFiltrados.length == 0) {
-        banner.innerHTML = '<p>Nenhum jogo encontrado com esse ID.</p>'
+    if (jogosFiltrados.length === 0) {
+        banner.innerHTML = '<p>Nenhum jogo encontrado com esse filtro.</p>'
         return
     }
 
