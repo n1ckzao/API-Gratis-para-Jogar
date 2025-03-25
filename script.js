@@ -1,14 +1,21 @@
 'use strict'
 
 async function buscarJogos() {
-    const url = `https://www.freetogame.com/api/games`
     try {
-        const response = await fetch(url)
+        const response = await fetch("https://www.freetogame.com/api/games")
         if (!response.ok) throw new Error('Erro ao buscar jogos')
         return await response.json()
     } catch (error) {
         console.error('Erro ao buscar jogos:', error)
         return []
+    }
+}
+
+function adicionarFavoritos(jogo) {
+    let favoritos = JSON.parse(localStorage.getItem('favoritos')) || []
+    if (!favoritos.some(fav => fav.id == jogo.id)) {
+        favoritos.push({ ...jogo, status: 'Jogar Depois' })
+        localStorage.setItem('favoritos', JSON.stringify(favoritos))
     }
 }
 
@@ -23,7 +30,7 @@ function criarBanner(jogo) {
     imagemJogo.alt = `Imagem do jogo ${jogo.title}`
 
     const nomeJogo = document.createElement('h2')
-    nomeJogo.textContent = jogo.title
+    nomeJogo.textContent = jogo.title;
 
     const descricaoJogo = document.createElement('p')
     descricaoJogo.textContent = jogo.short_description
@@ -39,32 +46,39 @@ function criarBanner(jogo) {
     botaoJogar.textContent = 'Jogar Agora'
     botaoJogar.classList.add('botao-jogar')
 
+    const botaoFavoritar = document.createElement('button')
+    botaoFavoritar.textContent = 'Adicionar aos Favoritos'
+    botaoFavoritar.classList.add('favoritar')
+    botaoFavoritar.onclick = () => adicionarFavoritos(jogo)
+
     novoJogo.appendChild(imagemJogo)
     novoJogo.appendChild(nomeJogo)
     novoJogo.appendChild(descricaoJogo)
     novoJogo.appendChild(generoJogo)
     novoJogo.appendChild(botaoJogar)
+    novoJogo.appendChild(botaoFavoritar)
     banner.appendChild(novoJogo)
 }
 
-async function exibirJogos(filtro = '') {
+async function exibirJogos(filtroID = '') {
     const banner = document.getElementById('banner')
     banner.innerHTML = '<p>Carregando...</p>'
 
     const jogos = await buscarJogos()
+    console.log(jogos)
     banner.innerHTML = ''
 
-    if (!jogos || jogos.length === 0) {
+    if (!jogos || jogos.length == 0) {
         banner.innerHTML = '<p>Erro ao carregar jogos ou nenhum jogo disponível.</p>'
         return
     }
 
-    const jogosFiltrados = filtro
-        ? jogos.filter(jogo => jogo.title.toLowerCase().includes(filtro.toLowerCase()))
+    const jogosFiltrados = filtroID
+        ? jogos.filter(jogo => jogo.id.toString() == filtroID)
         : jogos
 
-    if (jogosFiltrados.length === 0) {
-        banner.innerHTML = '<p>Nenhum jogo encontrado.</p>'
+    if (jogosFiltrados.length == 0) {
+        banner.innerHTML = '<p>Nenhum jogo encontrado com esse ID.</p>'
         return
     }
 
@@ -73,15 +87,14 @@ async function exibirJogos(filtro = '') {
 
 document.getElementById('pesquisar').addEventListener('click', () => {
     const jogoInput = document.getElementById('jogo')
-    const jogo = jogoInput.value.trim()
-    exibirJogos(jogo)
+    const jogoID = jogoInput.value.trim()
+    exibirJogos(jogoID)
     jogoInput.value = ''
 })
 
 window.addEventListener('load', () => {
     exibirJogos()
 })
-
 
 
 // 'use strict'
