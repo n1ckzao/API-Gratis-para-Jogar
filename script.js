@@ -72,13 +72,13 @@ function criarBanner(jogo) {
 
     const descricaoJogo = document.createElement('p')
     descricaoJogo.textContent = jogo.short_description
-    descricaoJogo.style.color = 'gray'
+    descricaoJogo.style.color = 'white'
 
     const generoJogo = document.createElement('p')
     generoJogo.textContent = `Gênero: ${jogo.genre}`
     generoJogo.style.color = 'blue'
 
-    const botaoJogar = document.createElement('a')
+    const botaoJogar = document.createElement('button')
     botaoJogar.href = jogo.game_url
     botaoJogar.target = "_blank"
     botaoJogar.textContent = 'Jogar Agora'

@@ -108,7 +108,7 @@ button:focus {
     gap: 15px;
 }
 .game {
-    background-color: var(--secondary-color);
+    background-color: var(--tertiary-color);
     border-radius: 5px;
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
     transition: transform 0.3s;
@@ -146,36 +146,51 @@ button:focus {
 }
 .game-horizontal {
     display: flex;
+    justify-content: space-between;
     align-items: center;
-    background-color: var(--secondary-color);
-    padding: 10px;
+    background-color: var(--tertiary-color);
+    padding: 15px;
     margin-bottom: 15px;
     border-radius: 5px;
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
     width: 100%;
-    max-width: 800px;
+    max-width: 90vw;
     color: var(--primary-color);
+    gap: 15px;
 }
+
 .game-horizontal img {
-    width: 100px;
+    width: 120px;
     height: auto;
     margin-right: 15px;
     border-radius: 5px;
 }
+
+.game-horizontal .info {
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
 .game-horizontal h2 {
     font-size: 18px;
     color: var(--primary-color);
-    margin: 0;
+    margin: 5px 0;
 }
+
 .game-horizontal p {
     color: var(--primary-color);
     font-size: 14px;
 }
-.game-horizontal select {
-    margin-top: 10px;
-    padding: 5px;
-    font-size: 14px;
+
+.game-horizontal .actions {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    gap: 10px;
 }
+
 .game-horizontal button.remover {
     background-color: #d9534f;
     color: white;
@@ -185,11 +200,12 @@ button:focus {
     border-radius: 5px;
     cursor: pointer;
     transition: background-color 0.3s;
-    margin-top: 10px;
 }
+
 .game-horizontal button.remover:hover {
     background-color: #c9302c;
 }
+
 .game-horizontal a {
     display: block;
     background-color: var(--button-color);
@@ -198,8 +214,8 @@ button:focus {
     padding: 10px;
     text-decoration: none;
     border-radius: 5px;
-    margin-top: 10px;
 }
+
 .game-horizontal a:hover {
     background-color: var(--button-hover-color);
 }
