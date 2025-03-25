@@ -18,6 +18,10 @@ function criarBanner(jogo) {
     const novoJogo = document.createElement('div')
     novoJogo.classList.add('game')
 
+    const imagemJogo = document.createElement('img')
+    imagemJogo.src = jogo.thumbnail
+    imagemJogo.alt = `Imagem do jogo ${jogo.title}`
+
     const nomeJogo = document.createElement('h2')
     nomeJogo.textContent = jogo.title
 
@@ -29,14 +33,17 @@ function criarBanner(jogo) {
     generoJogo.textContent = `Gênero: ${jogo.genre}`
     generoJogo.style.color = 'blue'
 
-    const imagemJogo = document.createElement('img')
-    imagemJogo.src = jogo.thumbnail
-    imagemJogo.alt = `Imagem do jogo ${jogo.title}`
+    const botaoJogar = document.createElement('a')
+    botaoJogar.href = jogo.game_url
+    botaoJogar.target = "_blank"
+    botaoJogar.textContent = 'Jogar Agora'
+    botaoJogar.classList.add('botao-jogar')
 
     novoJogo.appendChild(imagemJogo)
     novoJogo.appendChild(nomeJogo)
     novoJogo.appendChild(descricaoJogo)
     novoJogo.appendChild(generoJogo)
+    novoJogo.appendChild(botaoJogar)
     banner.appendChild(novoJogo)
 }
 
@@ -70,6 +77,7 @@ document.getElementById('pesquisar').addEventListener('click', () => {
     exibirJogos(jogo)
     jogoInput.value = ''
 })
+
 window.addEventListener('load', () => {
     exibirJogos()
 })
