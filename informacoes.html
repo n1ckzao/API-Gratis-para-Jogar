@@ -1,21 +1,46 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="pt">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Detalhes do Jogo</title>
     <link rel="stylesheet" href="style.css">
-    <script src="informacoes.js" defer></script>
 </head>
 <body>
     <header>
-        <a href="index.html">
-            <img src="logoFreeToGame.png" alt="FreeToGame">
-        </a>
-        <h1>Detalhes do Jogo</h1>
+        <h1 id="titulo-jogo">Detalhes do Jogo</h1>
+        <a href="index.html">Voltar</a>
     </header>
-    <main>
-        <div id="detalhes-jogo" class="detalhes-container"></div>
+
+    <main id="detalhes-jogo">
+        <p>Carregando...</p>
     </main>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const jogo = JSON.parse(localStorage.getItem('jogoSelecionado'))
+
+            if (!jogo) {
+                document.getElementById('detalhes-jogo').innerHTML = '<p>Erro ao carregar jogo.</p>'
+                return
+            }
+
+            document.getElementById('titulo-jogo').textContent = jogo.title
+
+            document.getElementById('detalhes-jogo').innerHTML = `
+                <div class="game-detalhes">
+                    <img src="${jogo.thumbnail}" alt="Imagem de ${jogo.title}">
+                    <h2>${jogo.title}</h2>
+                    <p><strong>Descrição:</strong> ${jogo.short_description}</p>
+                    <p><strong>Gênero:</strong> ${jogo.genre}</p>
+                    <p><strong>Plataforma:</strong> ${jogo.platform}</p>
+                    <p><strong>Desenvolvedor:</strong> ${jogo.developer}</p>
+                    <p><strong>Publicadora:</strong> ${jogo.publisher}</p>
+                    <p><strong>Data de Lançamento:</strong> ${jogo.release_date}</p>
+                    <a href="${jogo.game_url}" target="_blank" class="botao-joga">Jogar Agora</a>
+                </div>
+            `
+        })
+    </script>
 </body>
 </html>

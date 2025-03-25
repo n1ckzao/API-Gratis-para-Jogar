@@ -59,7 +59,7 @@ function adicionarFavoritos(jogo) {
 
 function criarBanner(jogo) {
     const banner = document.getElementById('banner')
-    
+
     const novoJogo = document.createElement('div')
     novoJogo.classList.add('game')
 
@@ -68,7 +68,7 @@ function criarBanner(jogo) {
     imagemJogo.alt = `Imagem do jogo ${jogo.title}`
 
     const nomeJogo = document.createElement('h2')
-    nomeJogo.textContent = jogo.title;
+    nomeJogo.textContent = jogo.title
 
     const descricaoJogo = document.createElement('p')
     descricaoJogo.textContent = jogo.short_description
@@ -88,6 +88,11 @@ function criarBanner(jogo) {
     botaoFavoritar.textContent = 'Adicionar aos Favoritos'
     botaoFavoritar.classList.add('favoritar')
     botaoFavoritar.onclick = () => adicionarFavoritos(jogo)
+
+    novoJogo.addEventListener('click', () => {
+        localStorage.setItem('jogoSelecionado', JSON.stringify(jogo))
+        window.location.href = 'informacoes.html'
+    })
 
     novoJogo.appendChild(imagemJogo)
     novoJogo.appendChild(nomeJogo)

@@ -126,6 +126,40 @@ button:focus {
     border-radius: 5px;
     margin-bottom: 10px;
 }
+.game-detalhes {
+    text-align: center;
+    padding: 20px;
+}
+
+.game-detalhes img {
+    width: 600px;
+    border-radius: 10px;
+}
+
+.game-detalhes h2 {
+    margin: 10px 0;
+}
+
+.game-detalhes p {
+    color: var(--primary-color);
+    font-size: 16px;
+    margin: 5px 0;
+}
+
+.botao-joga {
+    display: inline-block;
+    background-color: var(--button-color);
+    color: white;
+    padding: 10px 20px;
+    text-decoration: none;
+    border-radius: 5px;
+    margin-top: 15px;
+}
+
+.botao-joga:hover {
+    background-color: var(--button-hover-color);
+}
+
 .botao-jogar, .favoritar {
     width: 100%;
     padding: 10px;
@@ -218,4 +252,55 @@ button:focus {
 
 .game-horizontal a:hover {
     background-color: var(--button-hover-color);
+}
+@media (max-width: 768px) {
+    header {
+        display: flex;
+        flex-direction: column;
+        height: auto;
+        padding: 10px;
+        text-align: center;
+        
+    }
+    #categorias{
+        margin: 10px;
+    }
+    .categorias-menu {
+        top: 60px;
+        width: 100%;
+        max-width: 300px;
+    }
+    .pesquisa {
+        flex-direction: column;
+        align-items: center;
+    }
+    .game-horizontal {
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+    }
+
+    .game-horizontal img {
+        width: 100px;
+        margin-bottom: 10px;
+    }
+
+    .game-horizontal .actions {
+        align-items: center;
+    }
+}
+
+@media (max-width: 480px) {
+    header {
+        padding: 10px;
+    }
+
+    /* BANNER */
+    #banner {
+        flex-direction: column;
+        align-items: center;
+    }
+    .game-horizontal img {
+        width: 80px;
+    }
 }
