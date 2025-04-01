@@ -1,5 +1,8 @@
 'use strict'
 
+const proxy = 'https://cors-anywhere.herokuapp.com/'
+const url = 'https://www.freetogame.com/api/games'
+
 async function buscarCategorias() {
     try {
         const response = await fetch(proxy + url)
@@ -102,9 +105,6 @@ function criarBanner(jogo) {
     novoJogo.appendChild(botaoFavoritar)
     banner.appendChild(novoJogo)
 }
-
-const proxy = 'https://cors-anywhere.herokuapp.com/'
-const url = 'https://www.freetogame.com/api/games'
 
 async function buscarJogos() {
     try {

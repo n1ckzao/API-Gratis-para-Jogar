@@ -294,8 +294,6 @@ button:focus {
     header {
         padding: 10px;
     }
-
-    /* BANNER */
     #banner {
         flex-direction: column;
         align-items: center;
